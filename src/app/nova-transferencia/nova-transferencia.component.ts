@@ -1,3 +1,5 @@
+import { Transferencia } from './../../models/transferencia.model';
+import { TransferenciaService } from './../services/transferencia.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -5,22 +7,22 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   templateUrl: './nova-transferencia.component.html',
   styleUrls: ['./nova-transferencia.component.scss']
 })
-export class NovaTransferenciaComponent implements OnInit {
+export class NovaTransferenciaComponent{
 
   valor: number;
   destino: number;
 
   @Output() aoTransferir = new EventEmitter<any>();
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  constructor(private service: TransferenciaService) { }
 
   transferir(){
     console.log('Solicitada nova tranferencia');
-    const valorEmitir = { valor: this.valor, destino: this.destino};
-    this.aoTransferir.emit(valorEmitir);
+    const valorEmitir: Transferencia = { valor: this.valor, destino: this.destino};
+    this.service.adicionar(valorEmitir).subscribe(result => {
+      console.log(result);
+      this.limparCampos();
+    })
     this.limparCampos();
   }
 
