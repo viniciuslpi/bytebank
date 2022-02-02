@@ -19,11 +19,14 @@ export class NovaTransferenciaComponent{
   transferir(){
     console.log('Solicitada nova tranferencia');
     const valorEmitir: Transferencia = { valor: this.valor, destino: this.destino};
-    this.service.adicionar(valorEmitir).subscribe(result => {
-      console.log(result);
-      this.limparCampos();
-    })
-    this.limparCampos();
+
+    this.service.adicionar(valorEmitir).subscribe(
+      result => { console.log(result)
+      this.limparCampos()
+      },
+      error => console.error(error)
+    );
+
   }
 
   limparCampos(){
